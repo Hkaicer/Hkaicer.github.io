@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Behavioral Threat Detection — Case Study · Houssam Kaicer</title>
+  <meta name="description" content="Flagship case study: an end-to-end, open-source behavioral threat-detection pipeline for high-volume Security Operations. Elastic Stack, Airflow, MLflow, unsupervised ensemble, local LLM, MITRE ATT&CK.">
+  <meta property="og:title" content="Behavioral Threat Detection for High-Volume Security Operations">
+  <meta property="og:description" content="How I built an intelligent behavioral-detection pipeline that complements SIEM rules with unsupervised anomaly detection, validated on replayed Active Directory attacks and a SOC-confirmed finding on F5 firewall logs.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <script>(function(){var t=localStorage.getItem("theme");if(!t){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo mono">hk<span class="accent-cyan">.</span></a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="index.html#capabilities" data-i18n="nav.capabilities">Capabilities</a>
+        <a href="index.html#projects"     data-i18n="nav.projects">Projects</a>
+        <a href="case-study.html" class="active" data-i18n="nav.casestudy">Case study</a>
+        <a href="index.html#experience"   data-i18n="nav.experience">Experience</a>
+        <a href="index.html#about"        data-i18n="nav.about">About</a>
+        <a href="index.html#contact"      data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light / dark theme" data-i18n-al="theme.toggle">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+        </button>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" data-lang="en" class="lang-btn active">EN</button>
+          <button type="button" data-lang="fr" class="lang-btn">FR</button>
+        </div>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ===================== CS HERO (dark) ===================== -->
+    <section class="hero hero-compact">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container">
+        <p class="eyebrow mono reveal" data-i18n="cs.eyebrow">// flagship case study · Maroc Telecom PFE · 2026</p>
+        <h1 class="reveal" data-i18n="cs.title">Behavioral Threat Detection for High-Volume Security Operations</h1>
+        <p class="hero-sub reveal" data-i18n="cs.summary">
+          An end-to-end, open-source pipeline that learns normal Windows/Active Directory behavior, detects
+          anomalous activity without predefined signatures and produces analyst-ready MITRE ATT&amp;CK context.
+        </p>
+        <div class="cs-badges reveal">
+          <span class="badge badge-lab" data-i18n="badge.lab">lab-validated</span>
+          <span class="badge badge-prod" data-i18n="badge.prodAnom">production anomaly confirmed by SOC</span>
+          <span class="badge badge-amber" data-i18n="badge.sanitized">sanitized — no internal details</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTEXT ===================== -->
+    <section class="section">
+      <div class="container cs-narrow">
+        <p class="kicker mono reveal" data-i18n="cs.s1.kicker">01 · context &amp; problem</p>
+        <h2 class="reveal" data-i18n="cs.s1.title">Signatures miss what they haven't seen</h2>
+        <p class="cs-p reveal" data-i18n="cs.s1.p1">
+          Security Operations Centers rely heavily on signatures and predefined rules. These mechanisms remain
+          essential for known threats, but they can miss previously unseen or context-dependent activity. In a
+          telecom environment, the challenge is amplified by high event volumes — on the order of ten thousand
+          events per second — strict confidentiality requirements and analyst workload.
+        </p>
+        <p class="cs-p reveal" data-i18n="cs.s1.p2">
+          The objective: design a complementary behavioral-detection layer that learns normal activity from
+          unlabeled telemetry, identifies anomalous host behavior and translates findings into actionable context
+          for SOC analysts — without sending raw logs outside the organization.
+        </p>
+        <div class="callout callout-blue reveal">
+          <span class="callout-label mono" data-i18n="cs.s1.roleLabel">my role</span>
+          <p data-i18n="cs.s1.role">
+            I owned the project from requirements and architecture through implementation, attack simulation,
+            result analysis and documentation — the telemetry pipeline, feature-engineering strategy, model
+            ensemble, orchestration workflow and analyst-facing outputs.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ARCHITECTURE ===================== -->
+    <section class="section section-alt">
+      <div class="container">
+        <p class="kicker mono reveal" data-i18n="cs.s2.kicker">02 · architecture</p>
+        <h2 class="reveal" data-i18n="cs.s2.title">From raw telemetry to analyst-ready context</h2>
+
+        <div class="diagram-wrap reveal" aria-label="Pipeline architecture map">
+          <svg viewBox="0 0 960 336" xmlns="http://www.w3.org/2000/svg" class="pipeline-svg" role="img">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0L10 5L0 10z" fill="#11A8B5"/>
+              </marker>
+            </defs>
+
+            <!-- telemetry sources (generic) -->
+            <rect class="group-box" x="4" y="12" width="158" height="250" rx="14"/>
+            <text class="glabel" x="83" y="32" font-size="9" letter-spacing="2" text-anchor="middle" font-family="'JetBrains Mono', monospace">TELEMETRY</text>
+
+            <g text-anchor="middle" font-family="'JetBrains Mono', monospace">
+              <rect class="node" x="14" y="46" width="138" height="54" rx="10"/>
+              <text class="ntitle" x="83" y="69" font-size="11.5" font-weight="700">Servers</text>
+              <text class="nsub" x="83" y="86" font-size="9">system activity</text>
+
+              <rect class="node" x="14" y="120" width="138" height="54" rx="10"/>
+              <text class="ntitle" x="83" y="143" font-size="11.5" font-weight="700">Workstations</text>
+              <text class="nsub" x="83" y="160" font-size="9">user behavior</text>
+
+              <rect class="node" x="14" y="194" width="138" height="54" rx="10"/>
+              <text class="ntitle" x="83" y="217" font-size="10" font-weight="700">Domain controllers</text>
+              <text class="nsub" x="83" y="234" font-size="9">auth events</text>
+
+              <!-- main pipeline row -->
+              <rect class="node" x="200" y="120" width="150" height="64" rx="12"/>
+              <text class="ntitle" x="275" y="146" font-size="11.5" font-weight="700">Ingestion</text>
+              <text class="nsub" x="275" y="164" font-size="9">normalize · store</text>
+
+              <rect class="node" x="390" y="120" width="160" height="64" rx="12"/>
+              <text class="ntitle" x="470" y="146" font-size="11" font-weight="700">Behavior profiling</text>
+              <text class="nsub" x="470" y="164" font-size="9">5-min windows / host</text>
+
+              <rect class="node node-hl" x="590" y="120" width="150" height="64" rx="12"/>
+              <text class="ntitle ntitle-hl" x="665" y="146" font-size="11.5" font-weight="700">AI ensemble</text>
+              <text class="nsub" x="665" y="164" font-size="9">IF · LOF · ECOD · HBOS</text>
+
+              <rect class="node" x="780" y="120" width="172" height="64" rx="12"/>
+              <text class="ntitle" x="866" y="146" font-size="11" font-weight="700">Score + context</text>
+              <text class="nsub" x="866" y="164" font-size="9">local AI · MITRE ATT&amp;CK</text>
+
+              <!-- SOC outputs -->
+              <rect class="node" x="560" y="250" width="118" height="52" rx="10"/>
+              <text class="ntitle" x="619" y="272" font-size="10.5" font-weight="700">Dashboard</text>
+              <text class="nsub" x="619" y="288" font-size="9">triage view</text>
+
+              <rect class="node" x="698" y="250" width="118" height="52" rx="10"/>
+              <text class="ntitle" x="757" y="272" font-size="10.5" font-weight="700">Email alert</text>
+              <text class="nsub" x="757" y="288" font-size="9">instant notify</text>
+
+              <rect class="node" x="836" y="250" width="116" height="52" rx="10"/>
+              <text class="ntitle" x="894" y="272" font-size="10.5" font-weight="700">Incident PDF</text>
+              <text class="nsub" x="894" y="288" font-size="9">full report</text>
+            </g>
+
+            <!-- flows -->
+            <g class="flow" stroke="#11A8B5" stroke-width="2" fill="none" marker-end="url(#arr)">
+              <path d="M152 73 C178 73 172 138 196 142"/>
+              <line x1="152" y1="147" x2="196" y2="151"/>
+              <path d="M152 221 C178 221 172 166 196 161"/>
+              <line x1="350" y1="152" x2="386" y2="152"/>
+              <line x1="550" y1="152" x2="586" y2="152"/>
+              <line x1="740" y1="152" x2="776" y2="152"/>
+              <path d="M846 184 C800 222 680 226 625 246"/>
+              <path d="M866 184 C866 212 786 226 762 246"/>
+              <path d="M886 184 C900 208 894 226 894 246"/>
+            </g>
+
+            <!-- orchestration bar -->
+            <g font-family="'JetBrains Mono', monospace" text-anchor="middle">
+              <rect class="bar" x="200" y="314" width="752" height="20" rx="10"/>
+              <text class="bartext" x="576" y="328" font-size="10">continuous orchestration · a full detection cycle every 5 minutes</text>
+            </g>
+          </svg>
+        </div>
+
+        <ul class="cs-list">
+          <li class="reveal" data-i18n="cs.s2.b1">Windows Security and Sysmon telemetry collected through Winlogbeat.</li>
+          <li class="reveal" data-i18n="cs.s2.b2">Logstash processing and Elasticsearch storage with Kibana visualization.</li>
+          <li class="reveal" data-i18n="cs.s2.b3">Five-minute host-level activity windows engineered from volume, diversity, ratio, temporal and novelty signals.</li>
+          <li class="reveal" data-i18n="cs.s2.b4">Unsupervised ensemble combining Isolation Forest, LOF, ECOD and HBOS — global, local and distribution-based views of abnormality.</li>
+          <li class="reveal" data-i18n="cs.s2.b5">Apache Airflow for recurring execution and MLflow for experiment and artifact tracking.</li>
+          <li class="reveal" data-i18n="cs.s2.b6">Local LLM layer for concise explanations and MITRE ATT&amp;CK mapping — an investigation aid, never an autonomous verdict.</li>
+          <li class="reveal" data-i18n="cs.s2.b7">Dashboard, email notification and structured incident PDF for SOC consumption.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== VALIDATION ===================== -->
+    <section class="section">
+      <div class="container cs-narrow">
+        <p class="kicker mono reveal" data-i18n="cs.s3.kicker">03 · validation</p>
+        <h2 class="reveal" data-i18n="cs.s3.title">Replayed attacks, real anomalies</h2>
+        <p class="cs-p reveal" data-i18n="cs.s3.p1">
+          The pipeline was evaluated in an isolated Active Directory lab with replayed attack scenarios including
+          Kerberoasting and forged Kerberos-ticket behavior. It flagged the relevant time windows on the correct
+          host without relying on attack signatures — at the moment the attacks were launched.
+        </p>
+        <p class="cs-p reveal" data-i18n="cs.s3.p2">
+          An earlier version of the approach was also applied to real production-network data; a high-scoring
+          anomaly was investigated and confirmed by the SOC team. Conversely, a high-scoring window on a domain
+          controller turned out to be a legitimate service restart — a documented operational false positive that
+          shaped the human-review workflow.
+        </p>
+        <div class="callout callout-green reveal">
+          <span class="callout-label mono" data-i18n="cs.s3.provedLabel">what the project proved</span>
+          <ul class="callout-list">
+            <li data-i18n="cs.s3.pr1">Behavioral features can complement rule-based detection.</li>
+            <li data-i18n="cs.s3.pr2">An ensemble provides multiple views of abnormality: global, local and distribution-based.</li>
+            <li data-i18n="cs.s3.pr3">Explainability and analyst context are as important as the anomaly score.</li>
+            <li data-i18n="cs.s3.pr4">False positives are expected and must be handled through operational context and human review.</li>
+            <li data-i18n="cs.s3.pr5">Data sovereignty can be preserved with local processing and a locally hosted language model.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== LIMITATIONS ===================== -->
+    <section class="section section-alt">
+      <div class="container cs-narrow">
+        <p class="kicker mono reveal" data-i18n="cs.s4.kicker">04 · limitations — stated, not hidden</p>
+        <h2 class="reveal" data-i18n="cs.s4.title">What this system does not claim</h2>
+        <div class="callout callout-amber reveal">
+          <span class="callout-label mono" data-i18n="cs.s4.limitLabel">limitations</span>
+          <ul class="callout-list">
+            <li data-i18n="cs.s4.l1">The final lab implementation was not benchmarked publicly at the operator's full event volume.</li>
+            <li data-i18n="cs.s4.l2">Without reliable labels, classical precision, recall and AUC metrics are not sufficient for evaluation.</li>
+            <li data-i18n="cs.s4.l3">Five-minute windows may miss low-and-slow attacks spread over long periods.</li>
+            <li data-i18n="cs.s4.l4">The lab used limited hosts and telemetry sources compared with a full enterprise environment.</li>
+            <li data-i18n="cs.s4.l5">The LLM explanation is an investigation aid, not an autonomous incident verdict.</li>
+          </ul>
+        </div>
+        <p class="cs-p reveal" data-i18n="cs.s4.p1">
+          A score measures deviation from learned behavior, not malicious intent. Every flagged window is a lead
+          for the analyst — enriched with operational context, recent changes and service history — never a
+          conclusion.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="section">
+      <div class="container contact-wrap">
+        <h2 class="reveal" data-i18n="cs.cta.title">Want the deeper version?</h2>
+        <p class="contact-text reveal" data-i18n="cs.cta.text">
+          A sanitized demo repository with synthetic telemetry is on its way. In the meantime, I'm happy to walk
+          through the architecture, trade-offs and validation protocol in a technical interview.
+        </p>
+        <div class="contact-actions reveal">
+          <a class="btn btn-primary" href="mailto:hkaicer11@gmail.com" data-i18n="cs.cta.btn1">Discuss this project</a>
+          <a class="btn btn-ghost-light" href="index.html#projects" data-i18n="cs.cta.btn2">← Back to projects</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="mono">© <span id="year"></span> Houssam Kaicer</span>
+      <span data-i18n="footer.built">Every claim on this site is evidence-based. No trackers, no frameworks.</span>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

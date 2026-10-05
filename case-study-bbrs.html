@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proactive Wireless Monitoring — Case Study · Houssam Kaicer</title>
+  <meta name="description" content="Case study: 24/7 proactive monitoring and automation for 1000+ wireless access points across five-star hotels and international events, with hardened remote access.">
+  <meta property="og:title" content="Proactive Wireless Monitoring for Zero-Downtime Venues">
+  <meta property="og:description" content="How I turned complaint-driven wireless support into near-instant, proactive monitoring for 1000+ access points, and hardened remote access after global brute-force waves.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <script>(function(){var t=localStorage.getItem("theme");if(!t){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo mono">hk<span class="accent-cyan">.</span></a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="index.html#capabilities" data-i18n="nav.capabilities">Capabilities</a>
+        <a href="index.html#projects"     data-i18n="nav.projects">Projects</a>
+        <a href="case-study.html" data-i18n="nav.casestudy">Case study</a>
+        <a href="index.html#experience"   data-i18n="nav.experience">Experience</a>
+        <a href="index.html#about"        data-i18n="nav.about">About</a>
+        <a href="index.html#contact"      data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light / dark theme" data-i18n-al="theme.toggle">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+        </button>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" data-lang="en" class="lang-btn active">EN</button>
+          <button type="button" data-lang="fr" class="lang-btn">FR</button>
+        </div>
+        <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ===================== CS HERO (dark) ===================== -->
+    <section class="hero hero-compact">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container">
+        <p class="eyebrow mono reveal" data-i18n="bcs.eyebrow">// case study · BBRS Consulting · 2025</p>
+        <h1 class="reveal" data-i18n="bcs.title">Proactive Wireless Monitoring for Zero-Downtime Venues</h1>
+        <p class="hero-sub reveal" data-i18n="bcs.summary">
+          24/7 monitoring for 1000+ access points across five-star hotels and international events, so outages
+          get caught and fixed before anyone complains.
+        </p>
+        <div class="cs-badges reveal">
+          <span class="badge badge-prod" data-i18n="badge.deployed">deployed in operations</span>
+          <span class="badge badge-lab" data-i18n="badge.hardened">hardened remote access</span>
+          <span class="badge badge-amber" data-i18n="badge.sanitized">sanitized · no internal details</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTEXT ===================== -->
+    <section class="section">
+      <div class="container cs-narrow">
+        <p class="kicker mono reveal" data-i18n="bcs.s1.kicker">01 · context &amp; problem</p>
+        <h2 class="reveal" data-i18n="bcs.s1.title">When Wi-Fi is contractual, not a convenience</h2>
+        <p class="cs-p reveal" data-i18n="bcs.s1.p1">
+          BBRS runs the wireless infrastructure for some of Morocco's top five-star hotels and for international
+          events such as GITEX Africa. For a guest closing a deal or running a live session over the network, an
+          outage is a lost opportunity, not a minor annoyance. Availability is part of the contract.
+        </p>
+        <p class="cs-p reveal" data-i18n="bcs.s1.p2">
+          The old model was reactive: a client noticed the problem, complained, and only then did support react.
+          That is slow, and it hurts the experience of our clients' own guests.
+        </p>
+        <div class="callout callout-blue reveal">
+          <span class="callout-label mono" data-i18n="bcs.s1.roleLabel">my role</span>
+          <p data-i18n="bcs.s1.role">
+            I designed and built the monitoring and automation: secure polling of the controllers, the health
+            logic, the alerting flow, and the dashboards support teams rely on.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ARCHITECTURE ===================== -->
+    <section class="section section-alt">
+      <div class="container">
+        <p class="kicker mono reveal" data-i18n="bcs.s2.kicker">02 · architecture</p>
+        <h2 class="reveal" data-i18n="bcs.s2.title">From silent failures to instant alerts</h2>
+
+        <div class="diagram-wrap reveal" aria-label="Monitoring architecture map">
+          <svg viewBox="0 0 960 316" xmlns="http://www.w3.org/2000/svg" class="pipeline-svg" role="img">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0L10 5L0 10z" fill="#11A8B5"/>
+              </marker>
+            </defs>
+
+            <!-- client sites -->
+            <rect class="group-box" x="4" y="12" width="158" height="196" rx="14"/>
+            <text class="glabel" x="83" y="32" font-size="9" letter-spacing="2" text-anchor="middle" font-family="'JetBrains Mono', monospace">CLIENT SITES</text>
+
+            <g text-anchor="middle" font-family="'JetBrains Mono', monospace">
+              <rect class="node" x="14" y="46" width="138" height="54" rx="10"/>
+              <text class="ntitle" x="83" y="69" font-size="11.5" font-weight="700">Hotels</text>
+              <text class="nsub" x="83" y="86" font-size="9">five-star venues</text>
+
+              <rect class="node" x="14" y="136" width="138" height="54" rx="10"/>
+              <text class="ntitle" x="83" y="159" font-size="11.5" font-weight="700">Events</text>
+              <text class="nsub" x="83" y="176" font-size="9">GITEX Africa &amp; more</text>
+
+              <!-- main row -->
+              <rect class="node" x="200" y="86" width="156" height="64" rx="12"/>
+              <text class="ntitle" x="278" y="112" font-size="11.5" font-weight="700">1000+ APs</text>
+              <text class="nsub" x="278" y="130" font-size="9">wireless fleet</text>
+
+              <rect class="node" x="396" y="86" width="160" height="64" rx="12"/>
+              <text class="ntitle" x="476" y="112" font-size="11.5" font-weight="700">Secure polling</text>
+              <text class="nsub" x="476" y="130" font-size="9">hardened, custom ports</text>
+
+              <rect class="node node-hl" x="596" y="86" width="160" height="64" rx="12"/>
+              <text class="ntitle ntitle-hl" x="676" y="112" font-size="11.5" font-weight="700">Health engine</text>
+              <text class="nsub" x="676" y="130" font-size="9">every AP · short cycle</text>
+
+              <rect class="node" x="796" y="86" width="156" height="64" rx="12"/>
+              <text class="ntitle" x="874" y="112" font-size="11.5" font-weight="700">Support team</text>
+              <text class="nsub" x="874" y="130" font-size="9">fix before complaint</text>
+
+              <!-- outputs -->
+              <rect class="node" x="560" y="222" width="190" height="54" rx="10"/>
+              <text class="ntitle" x="655" y="244" font-size="10.5" font-weight="700">Alert + AP report</text>
+              <text class="nsub" x="655" y="260" font-size="9">instant email</text>
+
+              <rect class="node" x="782" y="222" width="170" height="54" rx="10"/>
+              <text class="ntitle" x="867" y="244" font-size="10.5" font-weight="700">Dashboards</text>
+              <text class="nsub" x="867" y="260" font-size="9">24/7 fleet visibility</text>
+            </g>
+
+            <!-- flows -->
+            <g class="flow" stroke="#11A8B5" stroke-width="2" fill="none" marker-end="url(#arr)">
+              <path d="M152 73 C178 73 172 106 196 110"/>
+              <path d="M152 163 C178 163 172 130 196 126"/>
+              <line x1="356" y1="118" x2="392" y2="118"/>
+              <line x1="556" y1="118" x2="592" y2="118"/>
+              <line x1="756" y1="118" x2="792" y2="118"/>
+              <path d="M656 150 C650 182 655 196 655 218"/>
+              <path d="M700 150 C762 182 832 192 862 218"/>
+            </g>
+
+            <!-- provisioning bar -->
+            <g font-family="'JetBrains Mono', monospace" text-anchor="middle">
+              <rect class="bar" x="200" y="290" width="752" height="20" rx="10"/>
+              <text class="bartext" x="576" y="304" font-size="10">Ansible provisioning · consistent rollout on every new site</text>
+            </g>
+          </svg>
+        </div>
+
+        <ul class="cs-list">
+          <li class="reveal" data-i18n="bcs.s2.b1">Secure polling of the wireless controllers over non-default ports, not the usual exposed ones.</li>
+          <li class="reveal" data-i18n="bcs.s2.b2">Automated health logic checks every access point on a short cycle.</li>
+          <li class="reveal" data-i18n="bcs.s2.b3">The moment a point goes down, an alert and a down-AP report reach the support team by email.</li>
+          <li class="reveal" data-i18n="bcs.s2.b4">Grafana dashboards give 24/7 visibility of the whole fleet across every client.</li>
+          <li class="reveal" data-i18n="bcs.s2.b5">Provisioning automated with Ansible, so new sites come online consistently.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== IMPACT ===================== -->
+    <section class="section">
+      <div class="container cs-narrow">
+        <p class="kicker mono reveal" data-i18n="bcs.s3.kicker">03 · impact</p>
+        <h2 class="reveal" data-i18n="bcs.s3.title">Fixed before the complaint</h2>
+        <p class="cs-p reveal" data-i18n="bcs.s3.p1">
+          Detection went from customer-complaint speed to near-instant, which cut both time-to-detect and
+          time-to-repair. Support acts on a precise report instead of a vague guest message.
+        </p>
+        <p class="cs-p reveal" data-i18n="bcs.s3.p2">
+          The remote-access hardening was driven by evidence. The logs showed heavy automated brute-force
+          guessing user and password combinations from many countries. Moving administration off default ports
+          removed most of that noise.
+        </p>
+        <div class="callout callout-green reveal">
+          <span class="callout-label mono" data-i18n="bcs.s3.provedLabel">what it changed</span>
+          <ul class="callout-list">
+            <li data-i18n="bcs.s3.pr1">Near-instant detection instead of complaint-driven.</li>
+            <li data-i18n="bcs.s3.pr2">Faster repair, with a precise down-AP report in hand.</li>
+            <li data-i18n="bcs.s3.pr3">A better experience for our clients and their guests.</li>
+            <li data-i18n="bcs.s3.pr4">A quieter, hardened attack surface for remote administration.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEXT ===================== -->
+    <section class="section section-alt">
+      <div class="container cs-narrow">
+        <p class="kicker mono reveal" data-i18n="bcs.s4.kicker">04 · what I'd add next</p>
+        <h2 class="reveal" data-i18n="bcs.s4.title">Next steps</h2>
+        <div class="callout callout-amber reveal">
+          <span class="callout-label mono" data-i18n="bcs.s4.label">roadmap</span>
+          <ul class="callout-list">
+            <li data-i18n="bcs.s4.n1">Predictive alerts on degrading access points before they fail outright.</li>
+            <li data-i18n="bcs.s4.n2">A public sanitized version with a simulated AP inventory.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="section">
+      <div class="container contact-wrap">
+        <h2 class="reveal" data-i18n="bcs.cta.title">Want the detail?</h2>
+        <p class="contact-text reveal" data-i18n="bcs.cta.text">
+          Happy to walk through the monitoring design and the hardening decisions in an interview.
+        </p>
+        <div class="contact-actions reveal">
+          <a class="btn btn-primary" href="mailto:hkaicer11@gmail.com" data-i18n="bcs.cta.btn1">Discuss this project</a>
+          <a class="btn btn-ghost-light" href="index.html#projects" data-i18n="bcs.cta.btn2">← Back to projects</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="mono">© <span id="year"></span> Houssam Kaicer</span>
+      <span data-i18n="footer.built">Every claim on this site is evidence-based. No trackers, no frameworks.</span>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
