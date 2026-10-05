@@ -1,5 +1,5 @@
 /* =====================================================
-   Houssam Kaicer — Portfolio001
+   Houssam Kaicer — Portfolio002
    Language toggle · theme · typing effect · reveals · filters · nav
    ===================================================== */
 (function () {
@@ -19,8 +19,24 @@
   var themeToggle = document.getElementById("themeToggle");
   if (themeToggle) {
     themeToggle.addEventListener("click", function () {
-      var cur = document.documentElement.getAttribute("data-theme") || "light";
-      applyTheme(cur === "dark" ? "light" : "dark");
+      var html = document.documentElement;
+      var next = (html.getAttribute("data-theme") || "light") === "dark" ? "light" : "dark";
+      if (reducedMotion || !document.startViewTransition) { applyTheme(next); return; }
+
+      // where supported, the new theme opens as a circle from the toggle itself
+      var r = themeToggle.getBoundingClientRect();
+      var x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+      var done = function () { html.classList.remove("vt-theme"); };
+      html.classList.add("vt-theme");
+      var vt = document.startViewTransition(function () { applyTheme(next); });
+      vt.ready.then(function () {
+        html.animate(
+          { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + radius + "px at " + x + "px " + y + "px)"] },
+          { duration: 560, easing: "cubic-bezier(0.4, 0, 0.2, 1)", pseudoElement: "::view-transition-new(root)" }
+        );
+      }).catch(done);
+      vt.finished.then(done, done);
     });
   }
 
@@ -45,6 +61,13 @@
       var key = el.getAttribute("data-i18n-al");
       if (dict[key] !== undefined) el.setAttribute("aria-label", dict[key]);
     });
+    // prefilled values (the case-study subject line): swapped only while the visitor has not typed over them
+    document.querySelectorAll("[data-i18n-val]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-val");
+      if (dict[key] === undefined) return;
+      if (!el.value || el.value === el.defaultValue) el.value = dict[key];
+      el.defaultValue = dict[key];
+    });
 
     document.querySelectorAll(".lang-btn").forEach(function (btn) {
       btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
@@ -56,6 +79,7 @@
       cvBtn.setAttribute("href", lang === "fr"
         ? "assets/cv/CV_Houssam_Kaicer_FR.pdf"
         : "assets/cv/CV_Houssam_Kaicer_EN.pdf");
+      checkCv(cvBtn);
     }
 
     // brief fade so the swap doesn't feel abrupt
@@ -64,6 +88,26 @@
     document.body.classList.add("lang-fade");
 
     restartTyping();
+
+    // lets js/motion.js re-split the headings this swap just rewrote
+    document.dispatchEvent(new CustomEvent("langchange", { detail: { lang: lang } }));
+  }
+
+  /* ---------- resume button ----------
+     Hidden until the PDF for the current language is actually online,
+     so a visitor never lands on a broken download. */
+  var cvFound = {};
+  function checkCv(btn) {
+    var href = btn.getAttribute("href");
+    if (location.protocol === "file:" || !window.fetch) return;
+    if (href in cvFound) { btn.hidden = !cvFound[href]; return; }
+    fetch(href, { method: "HEAD" }).then(function (res) {
+      cvFound[href] = res.ok;
+    }, function () {
+      cvFound[href] = false;
+    }).then(function () {
+      if (btn.getAttribute("href") === href) btn.hidden = !cvFound[href];
+    });
   }
 
   document.querySelectorAll(".lang-btn").forEach(function (btn) {
@@ -160,8 +204,12 @@
     }, 2500);
   }
 
-  /* ---------- nav: scrolled state + progress bar ---------- */
+  /* ---------- nav: scrolled state + progress bar ----------
+     Over the dark hero the nav is see-through (on-hero); it turns solid
+     once the hero has scrolled away or the mobile menu is open. */
   var nav = document.getElementById("nav");
+  var navPanel = document.getElementById("navLinks");
+  var hero = document.querySelector(".hero");
   var progressBar = document.getElementById("progressBar");
   var ticking = false;
 
@@ -170,6 +218,13 @@
     ticking = true;
     requestAnimationFrame(function () {
       nav.classList.toggle("scrolled", window.scrollY > 8);
+      var menuOpen = navPanel && navPanel.classList.contains("open");
+      var onHero = !!hero && window.scrollY < hero.offsetHeight - 64;
+      nav.classList.toggle("on-hero", onHero && !menuOpen);
+      // back at the top, no section link should still look current
+      if (onHero && sections.length) navLinks.forEach(function (link) {
+        if (link.getAttribute("href").charAt(0) === "#") link.classList.remove("active");
+      });
       var max = document.documentElement.scrollHeight - window.innerHeight;
       progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
       ticking = false;
@@ -204,12 +259,14 @@
       var open = linksPanel.classList.toggle("open");
       burger.classList.toggle("open", open);
       burger.setAttribute("aria-expanded", open ? "true" : "false");
+      onScroll();
     });
     navLinks.forEach(function (link) {
       link.addEventListener("click", function () {
         linksPanel.classList.remove("open");
         burger.classList.remove("open");
         burger.setAttribute("aria-expanded", "false");
+        onScroll();
       });
     });
   }

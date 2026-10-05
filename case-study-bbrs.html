@@ -8,7 +8,23 @@
   <meta property="og:title" content="Proactive Wireless Monitoring for Zero-Downtime Venues">
   <meta property="og:description" content="How I turned complaint-driven wireless support into near-instant, proactive monitoring for 1000+ access points, and hardened remote access after global brute-force waves.">
   <meta property="og:type" content="article">
+  <meta property="og:url" content="https://hkaicer.github.io/case-study-bbrs.html">
+  <meta property="og:site_name" content="Houssam Kaicer">
+  <meta property="og:image" content="https://hkaicer.github.io/assets/og/og-case-study-bbrs.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Case study: Proactive Wireless Monitoring for Zero-Downtime Venues">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Proactive Wireless Monitoring for Zero-Downtime Venues">
+  <meta name="twitter:description" content="How I turned complaint-driven wireless support into near-instant, proactive monitoring for 1000+ access points, and hardened remote access after global brute-force waves.">
+  <meta name="twitter:image" content="https://hkaicer.github.io/assets/og/og-case-study-bbrs.png">
+  <meta name="theme-color" content="#0B1F33">
+  <link rel="canonical" href="https://hkaicer.github.io/case-study-bbrs.html">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <script>(function(){var t=localStorage.getItem("theme");if(!t){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +32,8 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <a class="skip-link" href="#top" data-i18n="a11y.skip">Skip to content</a>
 
   <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
@@ -99,79 +117,121 @@
         <p class="kicker mono reveal" data-i18n="bcs.s2.kicker">02 · architecture</p>
         <h2 class="reveal" data-i18n="bcs.s2.title">From silent failures to instant alerts</h2>
 
-        <div class="diagram-wrap reveal" aria-label="Monitoring architecture map">
-          <svg viewBox="0 0 960 316" xmlns="http://www.w3.org/2000/svg" class="pipeline-svg" role="img">
-            <defs>
-              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M0 0L10 5L0 10z" fill="#11A8B5"/>
-              </marker>
-            </defs>
+        <div class="diagram-wrap reveal" data-diagram="bbrs">
+          <div class="diagram-scroll">
+            <svg viewBox="0 0 960 316" xmlns="http://www.w3.org/2000/svg" class="pipeline-svg" role="group" aria-label="Interactive map of the monitoring architecture" data-i18n-al="bcs.diag.al">
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0L10 5L0 10z" fill="#11A8B5"/>
+                </marker>
+                <marker id="arrFix" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path class="arr-fix" d="M0 0L10 5L0 10z"/>
+                </marker>
+                <clipPath id="barClip"><rect x="200" y="290" width="752" height="20" rx="10"/></clipPath>
+              </defs>
 
-            <!-- client sites -->
-            <rect class="group-box" x="4" y="12" width="158" height="196" rx="14"/>
-            <text class="glabel" x="83" y="32" font-size="9" letter-spacing="2" text-anchor="middle" font-family="'JetBrains Mono', monospace">CLIENT SITES</text>
+              <!-- client sites -->
+              <g class="dzone" data-stage="sites">
+                <rect class="group-box" x="4" y="12" width="158" height="196" rx="14"/>
+                <text class="glabel" x="83" y="32" font-size="9" letter-spacing="2" text-anchor="middle" font-family="'JetBrains Mono', monospace">CLIENT SITES</text>
+              </g>
 
-            <g text-anchor="middle" font-family="'JetBrains Mono', monospace">
-              <rect class="node" x="14" y="46" width="138" height="54" rx="10"/>
-              <text class="ntitle" x="83" y="69" font-size="11.5" font-weight="700">Hotels</text>
-              <text class="nsub" x="83" y="86" font-size="9">five-star venues</text>
+              <!-- links: data-from / data-to name the stages, data-kind is what travels on them -->
+              <g class="flow" stroke="#11A8B5" stroke-width="2" fill="none" marker-end="url(#arr)">
+                <path data-from="sites" data-to="aps" d="M152 73 C178 73 172 106 196 110"/>
+                <path data-from="sites" data-to="aps" d="M152 163 C178 163 172 130 196 126"/>
+                <line data-from="aps" data-to="poll" data-kind="beat" x1="356" y1="118" x2="392" y2="118"/>
+                <line data-from="poll" data-to="health" data-kind="beat" x1="556" y1="118" x2="592" y2="118"/>
+                <line data-from="health" data-to="support" data-kind="alert" x1="756" y1="118" x2="792" y2="118"/>
+                <path data-from="health" data-to="alert" data-kind="alert" d="M656 150 C650 182 655 196 655 218"/>
+                <path data-from="health" data-to="watch" data-kind="beat" d="M700 150 C762 182 832 192 862 218"/>
+              </g>
 
-              <rect class="node" x="14" y="136" width="138" height="54" rx="10"/>
-              <text class="ntitle" x="83" y="159" font-size="11.5" font-weight="700">Events</text>
-              <text class="nsub" x="83" y="176" font-size="9">GITEX Africa &amp; more</text>
+              <!-- on-site fix, only drawn during the simulated failure -->
+              <path class="fix-arc" d="M874 84 C800 36 372 36 292 80" marker-end="url(#arrFix)"/>
 
-              <!-- main row -->
-              <rect class="node" x="200" y="86" width="156" height="64" rx="12"/>
-              <text class="ntitle" x="278" y="112" font-size="11.5" font-weight="700">1000+ APs</text>
-              <text class="nsub" x="278" y="130" font-size="9">wireless fleet</text>
+              <g class="particles" aria-hidden="true"></g>
 
-              <rect class="node" x="396" y="86" width="160" height="64" rx="12"/>
-              <text class="ntitle" x="476" y="112" font-size="11.5" font-weight="700">Secure polling</text>
-              <text class="nsub" x="476" y="130" font-size="9">hardened, custom ports</text>
+              <g text-anchor="middle" font-family="'JetBrains Mono', monospace">
+                <g class="dnode" data-stage="sites">
+                  <rect class="node" x="14" y="46" width="138" height="54" rx="10"/>
+                  <text class="ntitle" x="83" y="69" font-size="11.5" font-weight="700">Hotels</text>
+                  <text class="nsub" x="83" y="86" font-size="9">five-star venues</text>
+                </g>
+                <g class="dnode" data-stage="sites">
+                  <rect class="node" x="14" y="136" width="138" height="54" rx="10"/>
+                  <text class="ntitle" x="83" y="159" font-size="11.5" font-weight="700">Events</text>
+                  <text class="nsub" x="83" y="176" font-size="9">GITEX Africa &amp; more</text>
+                </g>
 
-              <rect class="node node-hl" x="596" y="86" width="160" height="64" rx="12"/>
-              <text class="ntitle ntitle-hl" x="676" y="112" font-size="11.5" font-weight="700">Health engine</text>
-              <text class="nsub" x="676" y="130" font-size="9">every AP · short cycle</text>
+                <!-- main row -->
+                <g class="dnode" data-stage="aps" data-ap>
+                  <rect class="node" x="200" y="86" width="156" height="64" rx="12"/>
+                  <text class="ntitle" x="278" y="112" font-size="11.5" font-weight="700">1000+ APs</text>
+                  <text class="nsub" x="278" y="130" font-size="9">wireless fleet</text>
+                </g>
+                <g class="dnode" data-stage="poll">
+                  <rect class="node" x="396" y="86" width="160" height="64" rx="12"/>
+                  <text class="ntitle" x="476" y="112" font-size="11.5" font-weight="700">Secure polling</text>
+                  <text class="nsub" x="476" y="130" font-size="9">hardened, custom ports</text>
+                </g>
+                <g class="dnode" data-stage="health">
+                  <rect class="node node-hl" x="596" y="86" width="160" height="64" rx="12"/>
+                  <text class="ntitle ntitle-hl" x="676" y="112" font-size="11.5" font-weight="700">Health engine</text>
+                  <text class="nsub" x="676" y="130" font-size="9">every AP · short cycle</text>
+                </g>
+                <g class="dnode" data-stage="support">
+                  <rect class="node" x="796" y="86" width="156" height="64" rx="12"/>
+                  <text class="ntitle" x="874" y="112" font-size="11.5" font-weight="700">Support team</text>
+                  <text class="nsub" x="874" y="130" font-size="9">fix before complaint</text>
+                </g>
 
-              <rect class="node" x="796" y="86" width="156" height="64" rx="12"/>
-              <text class="ntitle" x="874" y="112" font-size="11.5" font-weight="700">Support team</text>
-              <text class="nsub" x="874" y="130" font-size="9">fix before complaint</text>
+                <!-- outputs -->
+                <g class="dnode" data-stage="alert">
+                  <rect class="node" x="560" y="222" width="190" height="54" rx="10"/>
+                  <text class="ntitle" x="655" y="244" font-size="10.5" font-weight="700">Alert + AP report</text>
+                  <text class="nsub" x="655" y="260" font-size="9">instant email</text>
+                </g>
+                <g class="dnode" data-stage="watch">
+                  <rect class="node" x="782" y="222" width="170" height="54" rx="10"/>
+                  <text class="ntitle" x="867" y="244" font-size="10.5" font-weight="700">Dashboards</text>
+                  <text class="nsub" x="867" y="260" font-size="9">24/7 fleet visibility</text>
+                </g>
+              </g>
 
-              <!-- outputs -->
-              <rect class="node" x="560" y="222" width="190" height="54" rx="10"/>
-              <text class="ntitle" x="655" y="244" font-size="10.5" font-weight="700">Alert + AP report</text>
-              <text class="nsub" x="655" y="260" font-size="9">instant email</text>
-
-              <rect class="node" x="782" y="222" width="170" height="54" rx="10"/>
-              <text class="ntitle" x="867" y="244" font-size="10.5" font-weight="700">Dashboards</text>
-              <text class="nsub" x="867" y="260" font-size="9">24/7 fleet visibility</text>
-            </g>
-
-            <!-- flows -->
-            <g class="flow" stroke="#11A8B5" stroke-width="2" fill="none" marker-end="url(#arr)">
-              <path d="M152 73 C178 73 172 106 196 110"/>
-              <path d="M152 163 C178 163 172 130 196 126"/>
-              <line x1="356" y1="118" x2="392" y2="118"/>
-              <line x1="556" y1="118" x2="592" y2="118"/>
-              <line x1="756" y1="118" x2="792" y2="118"/>
-              <path d="M656 150 C650 182 655 196 655 218"/>
-              <path d="M700 150 C762 182 832 192 862 218"/>
-            </g>
-
-            <!-- provisioning bar -->
-            <g font-family="'JetBrains Mono', monospace" text-anchor="middle">
-              <rect class="bar" x="200" y="290" width="752" height="20" rx="10"/>
-              <text class="bartext" x="576" y="304" font-size="10">Ansible provisioning · consistent rollout on every new site</text>
-            </g>
-          </svg>
+              <!-- provisioning bar -->
+              <g class="dnode dbar" data-stage="provision" font-family="'JetBrains Mono', monospace" text-anchor="middle">
+                <rect class="bar" x="200" y="290" width="752" height="20" rx="10"/>
+                <rect class="bar-sweep" x="200" y="290" width="752" height="20" clip-path="url(#barClip)"/>
+                <text class="bartext" x="576" y="304" font-size="10">Ansible provisioning · consistent rollout on every new site</text>
+              </g>
+            </svg>
+          </div>
+          <div class="diagram-ui">
+            <div class="dui-row">
+              <button type="button" class="dui-play">
+                <svg class="ico-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z"/></svg>
+                <svg class="ico-pause" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5h2.6v9H2.5zM6.9 1.5h2.6v9H6.9z"/></svg>
+                <span data-i18n="bcs.diag.play">Simulate an access-point failure</span>
+              </button>
+              <div class="dui-steps" role="group" aria-label="Stages" data-i18n-al="diag.stages"></div>
+            </div>
+            <p class="dui-caption" aria-live="polite"><span class="dui-label mono"><span class="dui-num"></span><span class="dui-title"></span></span> <span class="dui-text" data-i18n="diag.hint">Hover or tap a stage to see its role, or run the full cycle.</span></p>
+            <ul class="dui-legend mono" aria-hidden="true">
+              <li><svg viewBox="-6 -6 12 12"><g class="pt pt-beat"><circle r="2.1"/></g></svg><span data-i18n="bcs.diag.lg1">status check</span></li>
+              <li><svg viewBox="-6 -6 12 12"><g class="pt pt-down"><circle r="3"/></g></svg><span data-i18n="bcs.diag.lg2">AP down</span></li>
+              <li><svg viewBox="-6 -6 12 12"><g class="pt pt-alert"><rect x="-3.4" y="-3.4" width="6.8" height="6.8" transform="rotate(45)"/></g></svg><span data-i18n="bcs.diag.lg3">alert + report</span></li>
+              <li><svg viewBox="-6 -6 12 12"><g class="pt pt-fix"><circle r="3"/></g></svg><span data-i18n="bcs.diag.lg4">on-site fix</span></li>
+            </ul>
+          </div>
         </div>
 
         <ul class="cs-list">
-          <li class="reveal" data-i18n="bcs.s2.b1">Secure polling of the wireless controllers over non-default ports, not the usual exposed ones.</li>
-          <li class="reveal" data-i18n="bcs.s2.b2">Automated health logic checks every access point on a short cycle.</li>
-          <li class="reveal" data-i18n="bcs.s2.b3">The moment a point goes down, an alert and a down-AP report reach the support team by email.</li>
-          <li class="reveal" data-i18n="bcs.s2.b4">Grafana dashboards give 24/7 visibility of the whole fleet across every client.</li>
-          <li class="reveal" data-i18n="bcs.s2.b5">Provisioning automated with Ansible, so new sites come online consistently.</li>
+          <li class="reveal" data-stage="poll" data-i18n="bcs.s2.b1">Polling of the wireless controllers over non-default ports, with access restricted by IP filtering.</li>
+          <li class="reveal" data-stage="health" data-i18n="bcs.s2.b2">Automated health logic checks every access point on a short cycle.</li>
+          <li class="reveal" data-stage="alert" data-i18n="bcs.s2.b3">The moment a point goes down, an alert and a down-AP report reach the support team by email.</li>
+          <li class="reveal" data-stage="watch" data-i18n="bcs.s2.b4">Grafana dashboards give 24/7 visibility of the whole fleet across every client.</li>
+          <li class="reveal" data-stage="provision" data-i18n="bcs.s2.b5">Provisioning automated with Ansible, so new sites come online consistently.</li>
         </ul>
       </div>
     </section>
@@ -186,9 +246,11 @@
           time-to-repair. Support acts on a precise report instead of a vague guest message.
         </p>
         <p class="cs-p reveal" data-i18n="bcs.s3.p2">
-          The remote-access hardening was driven by evidence. The logs showed heavy automated brute-force
-          guessing user and password combinations from many countries. Moving administration off default ports
-          removed most of that noise.
+          The remote-access work was driven by evidence. The logs showed heavy automated brute-force guessing
+          user and password combinations from many countries. Moving administration off default ports and
+          restricting access by IP filtering removed most of that noise. To be precise about it: the port
+          change alone is not a security control, it just cuts commodity scanning. The IP restriction is what
+          actually limits who can reach the service.
         </p>
         <div class="callout callout-green reveal">
           <span class="callout-label mono" data-i18n="bcs.s3.provedLabel">what it changed</span>
@@ -196,7 +258,7 @@
             <li data-i18n="bcs.s3.pr1">Near-instant detection instead of complaint-driven.</li>
             <li data-i18n="bcs.s3.pr2">Faster repair, with a precise down-AP report in hand.</li>
             <li data-i18n="bcs.s3.pr3">A better experience for our clients and their guests.</li>
-            <li data-i18n="bcs.s3.pr4">A quieter, hardened attack surface for remote administration.</li>
+            <li data-i18n="bcs.s3.pr4">Remote administration reachable from far fewer places, and much less automated noise.</li>
           </ul>
         </div>
       </div>
@@ -217,16 +279,46 @@
       </div>
     </section>
 
-    <!-- ===================== CTA ===================== -->
+    <!-- ===================== CTA + CONTACT (same form and logic as the home page) ===================== -->
     <section class="section">
-      <div class="container contact-wrap">
-        <h2 class="reveal" data-i18n="bcs.cta.title">Want the detail?</h2>
-        <p class="contact-text reveal" data-i18n="bcs.cta.text">
-          Happy to walk through the monitoring design and the hardening decisions in an interview.
-        </p>
-        <div class="contact-actions reveal">
-          <a class="btn btn-primary" href="mailto:hkaicer11@gmail.com" data-i18n="bcs.cta.btn1">Discuss this project</a>
-          <a class="btn btn-ghost-light" href="index.html#projects" data-i18n="bcs.cta.btn2">← Back to projects</a>
+      <div class="container">
+        <div class="contact-grid">
+
+          <div class="contact-info">
+            <h2 class="reveal" data-i18n="bcs.cta.title">Want the detail?</h2>
+            <p class="contact-text reveal" data-i18n="bcs.cta.text">
+              Happy to walk through the monitoring design and the hardening decisions in an interview.
+            </p>
+            <div class="contact-actions reveal">
+              <a class="btn btn-ghost-light" href="index.html#projects" data-i18n="bcs.cta.btn2">← Back to projects</a>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" id="contactForm" novalidate>
+            <div class="cf-row">
+              <div class="cf-field">
+                <label for="cfName" data-i18n="contact.formName">Your name</label>
+                <input id="cfName" name="name" type="text" autocomplete="name" data-i18n-ph="contact.formNamePh" placeholder="Jane Doe">
+              </div>
+              <div class="cf-field">
+                <label for="cfEmail" data-i18n="contact.formEmail">Your email</label>
+                <input id="cfEmail" name="email" type="email" autocomplete="email" data-i18n-ph="contact.formEmailPh" placeholder="jane@example.com">
+              </div>
+            </div>
+            <div class="cf-field">
+              <label for="cfSubject" data-i18n="contact.formSubject">Subject</label>
+              <input id="cfSubject" name="subject" type="text" data-i18n-ph="contact.formSubjectPh" placeholder="How can I help?" data-i18n-val="bcs.cta.subject" value="About your wireless monitoring case study">
+            </div>
+            <div class="cf-field">
+              <label for="cfMsg" data-i18n="contact.formMsg">Message</label>
+              <textarea id="cfMsg" name="message" rows="4" data-i18n-ph="contact.formMsgPh" placeholder="Your message…"></textarea>
+            </div>
+            <input type="text" id="cfGotcha" name="_gotcha" class="cf-gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit" class="btn btn-primary cf-send" data-i18n="contact.formSend">Send message ✈</button>
+            <p class="cf-status mono" id="cfStatus" role="status" aria-live="polite"></p>
+            <p class="cf-hint mono" data-i18n="contact.formHint">Straight to my inbox. I reply to every message.</p>
+          </form>
+
         </div>
       </div>
     </section>
@@ -242,5 +334,7 @@
 
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/motion.js"></script>
+  <script src="js/diagram.js"></script>
 </body>
 </html>

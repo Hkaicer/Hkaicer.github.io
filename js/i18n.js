@@ -14,7 +14,7 @@ const I18N = {
     "nav.contact": "Contact",
 
     "hero.eyebrow": "// Cybersecurity × Artificial Intelligence",
-    "hero.title": "Cybersecurity Engineer specializing in AI for Security Operations, designing intelligent security architectures and scalable solutions for modern cyber defense.",
+    "hero.title": "Cybersecurity Engineer specializing in <span class=\"hl\">AI for Security Operations</span>, designing intelligent security architectures and scalable solutions for modern cyber defense.",
     "hero.sub": "Engineering intelligent architectures and security solutions that strengthen cyber resilience, improve operational efficiency and enable smarter Security Operations.",
     "hero.typedPrefix": "&gt; engineering ",
     "hero.cta1": "Read the flagship case study",
@@ -159,6 +159,18 @@ const I18N = {
 
     "footer.built": "Every claim on this site is evidence-based. No trackers, no frameworks.",
     "theme.toggle": "Toggle light / dark theme",
+    "a11y.skip": "Skip to content",
+
+    /* ---------- interactive diagrams (shared) ---------- */
+    "diag.hint": "Hover or tap a stage to see its role, or run the full cycle.",
+    "diag.pause": "Pause",
+    "diag.stages": "Stages",
+
+    /* ---------- 404 ---------- */
+    "nf.title": "This page does not exist.",
+    "nf.text": "The link may be outdated, or the address mistyped. Everything else is one click away.",
+    "nf.btn1": "Back to home",
+    "nf.btn2": "Read the flagship case study",
 
     /* ---------- flagship case study (Maroc Telecom) ---------- */
     "cs.eyebrow": "// flagship case study · Maroc Telecom PFE · 2026",
@@ -181,6 +193,20 @@ const I18N = {
     "cs.s2.b5": "Apache Airflow for recurring runs and MLflow for experiment and artifact tracking.",
     "cs.s2.b6": "Local LLM layer for concise explanations and MITRE ATT&CK mapping. It aids investigation and never issues an autonomous verdict.",
     "cs.s2.b7": "Dashboard, email notification and structured incident PDF for the SOC.",
+    "cs.diag.al": "Interactive map of the detection pipeline",
+    "cs.diag.play": "Run a detection cycle",
+    "cs.diag.done": "Cycle complete. The next one starts five minutes later.",
+    "cs.diag.st1": "Collect",
+    "cs.diag.st2": "Ingest",
+    "cs.diag.st3": "Profile",
+    "cs.diag.st4": "Score",
+    "cs.diag.st5": "Explain",
+    "cs.diag.st6": "Deliver",
+    "cs.diag.st7": "Orchestrate",
+    "cs.diag.lg1": "event",
+    "cs.diag.lg2": "5-min window",
+    "cs.diag.lg3": "scored window",
+    "cs.diag.lg4": "alert",
 
     "cs.s3.kicker": "03 · validation",
     "cs.s3.title": "Replayed attacks, real findings",
@@ -205,7 +231,7 @@ const I18N = {
 
     "cs.cta.title": "Want the deeper version?",
     "cs.cta.text": "A sanitized demo repository with synthetic data is on the way. Until then, I'm glad to walk through the architecture, trade-offs and validation in a technical interview.",
-    "cs.cta.btn1": "Discuss this project",
+    "cs.cta.subject": "About your behavioral threat detection case study",
     "cs.cta.btn2": "← Back to projects",
 
     /* ---------- BBRS case study ---------- */
@@ -225,6 +251,22 @@ const I18N = {
     "bcs.s2.b3": "The moment a point goes down, an alert and a down-AP report reach the support team by email.",
     "bcs.s2.b4": "Grafana dashboards give 24/7 visibility of the whole fleet across every client.",
     "bcs.s2.b5": "Provisioning automated with Ansible, so new sites come online consistently.",
+    "bcs.diag.al": "Interactive map of the monitoring architecture",
+    "bcs.diag.play": "Simulate an access-point failure",
+    "bcs.diag.st1": "Failure",
+    "bcs.diag.st2": "Poll",
+    "bcs.diag.st3": "Detect",
+    "bcs.diag.st4": "Alert",
+    "bcs.diag.st5": "Fix",
+    "bcs.diag.st6": "Watch",
+    "bcs.diag.st7": "Provision",
+    "bcs.diag.c1": "One access point drops at a client site.",
+    "bcs.diag.down": "1 AP down",
+    "bcs.diag.up": "back online",
+    "bcs.diag.lg1": "status check",
+    "bcs.diag.lg2": "AP down",
+    "bcs.diag.lg3": "alert + report",
+    "bcs.diag.lg4": "on-site fix",
     "bcs.s3.kicker": "03 · impact",
     "bcs.s3.title": "Fixed before the complaint",
     "bcs.s3.p1": "Detection went from customer-complaint speed to near-instant, which cut both time-to-detect and time-to-repair. Support acts on a precise report instead of a vague guest message.",
@@ -241,7 +283,7 @@ const I18N = {
     "bcs.s4.n2": "A public sanitized version with a simulated AP inventory.",
     "bcs.cta.title": "Want the detail?",
     "bcs.cta.text": "Happy to walk through the monitoring design and the hardening decisions in an interview.",
-    "bcs.cta.btn1": "Discuss this project",
+    "bcs.cta.subject": "About your wireless monitoring case study",
     "bcs.cta.btn2": "← Back to projects"
   },
 
@@ -254,7 +296,7 @@ const I18N = {
     "nav.contact": "Contact",
 
     "hero.eyebrow": "// Cybersécurité × Intelligence Artificielle",
-    "hero.title": "Ingénieur Cybersécurité spécialisé en IA pour les Security Operations, je conçois des architectures de sécurité intelligentes et des solutions scalables pour la cyberdéfense moderne.",
+    "hero.title": "Ingénieur Cybersécurité spécialisé en <span class=\"hl\">IA pour les Security Operations</span>, je conçois des architectures de sécurité intelligentes et des solutions scalables pour la cyberdéfense moderne.",
     "hero.sub": "Concevoir des architectures intelligentes et des solutions de sécurité qui renforcent la cyber-résilience, améliorent l'efficacité opérationnelle et permettent des Security Operations plus intelligentes.",
     "hero.typedPrefix": "&gt; je conçois ",
     "hero.cta1": "Lire l'étude de cas phare",
@@ -399,6 +441,18 @@ const I18N = {
 
     "footer.built": "Chaque affirmation de ce site est fondée sur des preuves. Sans traqueur, sans framework.",
     "theme.toggle": "Basculer thème clair / sombre",
+    "a11y.skip": "Aller au contenu",
+
+    /* ---------- schémas interactifs (communs) ---------- */
+    "diag.hint": "Survolez ou touchez une étape pour voir son rôle, ou lancez le cycle complet.",
+    "diag.pause": "Pause",
+    "diag.stages": "Étapes",
+
+    /* ---------- 404 ---------- */
+    "nf.title": "Cette page n'existe pas.",
+    "nf.text": "Le lien est peut-être ancien, ou l'adresse mal saisie. Tout le reste est à un clic.",
+    "nf.btn1": "Retour à l'accueil",
+    "nf.btn2": "Lire l'étude de cas phare",
 
     /* ---------- étude de cas phare (Maroc Telecom) ---------- */
     "cs.eyebrow": "// étude de cas phare · PFE Maroc Telecom · 2026",
@@ -421,6 +475,20 @@ const I18N = {
     "cs.s2.b5": "Apache Airflow pour les exécutions récurrentes et MLflow pour le suivi des expériences et artefacts.",
     "cs.s2.b6": "Couche LLM locale pour des explications concises et l'alignement MITRE ATT&CK. Elle aide l'investigation et n'émet jamais de verdict autonome.",
     "cs.s2.b7": "Dashboard, notification e-mail et PDF d'incident structuré pour le SOC.",
+    "cs.diag.al": "Carte interactive du pipeline de détection",
+    "cs.diag.play": "Lancer un cycle de détection",
+    "cs.diag.done": "Cycle terminé. Le suivant démarre cinq minutes plus tard.",
+    "cs.diag.st1": "Collecte",
+    "cs.diag.st2": "Ingestion",
+    "cs.diag.st3": "Profilage",
+    "cs.diag.st4": "Score",
+    "cs.diag.st5": "Contexte",
+    "cs.diag.st6": "Restitution",
+    "cs.diag.st7": "Orchestration",
+    "cs.diag.lg1": "événement",
+    "cs.diag.lg2": "fenêtre de 5 min",
+    "cs.diag.lg3": "fenêtre scorée",
+    "cs.diag.lg4": "alerte",
 
     "cs.s3.kicker": "03 · validation",
     "cs.s3.title": "Attaques rejouées, résultats réels",
@@ -445,7 +513,7 @@ const I18N = {
 
     "cs.cta.title": "Envie de la version approfondie ?",
     "cs.cta.text": "Un dépôt de démonstration assaini avec données synthétiques est en préparation. En attendant, je déroule volontiers l'architecture, les compromis et la validation en entretien technique.",
-    "cs.cta.btn1": "Discuter de ce projet",
+    "cs.cta.subject": "À propos de votre étude de cas sur la détection comportementale",
     "cs.cta.btn2": "← Retour aux projets",
 
     /* ---------- étude de cas BBRS ---------- */
@@ -465,6 +533,22 @@ const I18N = {
     "bcs.s2.b3": "Dès qu'un point tombe, une alerte et un rapport des AP en panne arrivent à l'équipe support par e-mail.",
     "bcs.s2.b4": "Les dashboards Grafana donnent une visibilité 24h/24 sur tout le parc, tous clients confondus.",
     "bcs.s2.b5": "Provisionnement automatisé avec Ansible, pour que les nouveaux sites démarrent de façon cohérente.",
+    "bcs.diag.al": "Carte interactive de l'architecture de supervision",
+    "bcs.diag.play": "Simuler la panne d'un point d'accès",
+    "bcs.diag.st1": "Panne",
+    "bcs.diag.st2": "Interrogation",
+    "bcs.diag.st3": "Détection",
+    "bcs.diag.st4": "Alerte",
+    "bcs.diag.st5": "Réparation",
+    "bcs.diag.st6": "Supervision",
+    "bcs.diag.st7": "Provisionnement",
+    "bcs.diag.c1": "Un point d'accès tombe sur un site client.",
+    "bcs.diag.down": "1 AP en panne",
+    "bcs.diag.up": "rétabli",
+    "bcs.diag.lg1": "contrôle d'état",
+    "bcs.diag.lg2": "AP en panne",
+    "bcs.diag.lg3": "alerte + rapport",
+    "bcs.diag.lg4": "réparation sur site",
     "bcs.s3.kicker": "03 · impact",
     "bcs.s3.title": "Corrigé avant la réclamation",
     "bcs.s3.p1": "La détection est passée de la vitesse d'une plainte client à quasi-instantanée, ce qui a réduit le temps de détection et le temps de réparation. Le support agit sur un rapport précis plutôt que sur un message vague de client.",
@@ -481,7 +565,7 @@ const I18N = {
     "bcs.s4.n2": "Une version publique assainie avec un inventaire d'AP simulé.",
     "bcs.cta.title": "Envie du détail ?",
     "bcs.cta.text": "Je déroule volontiers la conception de la supervision et les décisions de durcissement en entretien.",
-    "bcs.cta.btn1": "Discuter de ce projet",
+    "bcs.cta.subject": "À propos de votre étude de cas sur la supervision Wi-Fi",
     "bcs.cta.btn2": "← Retour aux projets"
   }
 };
